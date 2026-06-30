@@ -1,4 +1,4 @@
-import { App, PluginSettingTab, Setting, TFolder, TFile, FuzzySuggestModal } from 'obsidian';
+import { App, PluginSettingTab, Setting, TFolder, TFile, FuzzySuggestModal, TextComponent } from 'obsidian';
 import type GameSearchPlugin from './main';
 
 export interface GameSearchPluginSettings {
@@ -100,7 +100,7 @@ export class GameSearchSettingTab extends PluginSettingTab {
 
 		new Setting(containerEl).setName('File Configuration').setHeading();
 
-		let templatePathText: any;
+		let templatePathText: TextComponent;
 		new Setting(containerEl)
 			.setName('Template File Path')
 			.setDesc('Select the markdown file to use as a template')
@@ -123,7 +123,7 @@ export class GameSearchSettingTab extends PluginSettingTab {
 					}).open();
 				}));
 
-		let destFolderText: any;
+		let destFolderText: TextComponent;
 		new Setting(containerEl)
 			.setName('Destination Folder')
 			.setDesc('Select the folder where new game notes will be created')
