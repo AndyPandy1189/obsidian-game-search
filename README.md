@@ -1,6 +1,6 @@
-# Obsidian Game Search
+# Gamebase
 
-Obsidian Game Search is a plugin that allows you to easily pull video game metadata from the IGDB (Internet Game Database) API and automatically generate beautifully formatted markdown notes in your vault based on your own custom templates. This is inspired by the Obsidian plugin Book Search. 
+Obsidian Gamebase is a plugin that allows you to easily pull video game metadata from the IGDB (Internet Game Database) API and automatically generate beautifully formatted markdown notes in your vault based on your own custom templates. This is inspired by the Obsidian plugin Book Search. 
 
 ## Features
 - **Single Import:** Quickly search for a game and instantly generate a note for it.
