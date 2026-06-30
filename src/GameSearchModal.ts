@@ -19,7 +19,7 @@ export class GameSearchModal extends SuggestModal<IGDBGame> {
 		
 		try {
 			return await this.igdbClient.searchGames(query);
-		} catch (_) {
+		} catch {
 			new Notice("Failed to search IGDB. Please check your API credentials in settings.");
 			return [];
 		}

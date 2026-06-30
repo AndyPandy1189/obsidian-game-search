@@ -111,7 +111,7 @@ export class BulkImportModal extends Modal {
 						}));
 			});
 
-		} catch (_) {
+		} catch {
 			this.resultsContainer.empty();
 			this.resultsContainer.createEl('p', { text: 'Error searching IGDB. Check credentials.' });
 		}

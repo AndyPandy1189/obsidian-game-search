@@ -70,7 +70,7 @@ export class GameSearchSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-		new Setting(containerEl).setName('IGDB API Settings').setHeading();
+		new Setting(containerEl).setName('IGDB API').setHeading();
 
 		new Setting(containerEl)
 			.setName('IGDB Client ID')
@@ -98,17 +98,19 @@ export class GameSearchSettingTab extends PluginSettingTab {
 					});
 			});
 
-		new Setting(containerEl).setName('File Settings').setHeading();
+		new Setting(containerEl).setName('File Configuration').setHeading();
 
+		let templatePathText: any;
 		new Setting(containerEl)
 			.setName('Template File Path')
 			.setDesc('Select the markdown file to use as a template')
 			.addText(text => {
+				templatePathText = text;
 				text.setPlaceholder('Templates/GameTemplate.md')
 					.setValue(this.plugin.settings.templatePath)
 					.onChange((value) => {
 						this.plugin.settings.templatePath = value;
-						this.plugin.saveSettings();
+						void this.plugin.saveSettings();
 					});
 			})
 			.addButton(btn => btn
@@ -116,20 +118,22 @@ export class GameSearchSettingTab extends PluginSettingTab {
 				.onClick(() => {
 					new FileSuggestModal(this.app, (file: TFile) => {
 						this.plugin.settings.templatePath = file.path;
-						this.plugin.saveSettings();
-						this.display();
+						void this.plugin.saveSettings();
+						templatePathText.setValue(file.path);
 					}).open();
 				}));
 
+		let destFolderText: any;
 		new Setting(containerEl)
 			.setName('Destination Folder')
 			.setDesc('Select the folder where new game notes will be created')
 			.addText(text => {
+				destFolderText = text;
 				text.setPlaceholder('Games')
 					.setValue(this.plugin.settings.destinationFolder)
 					.onChange((value) => {
 						this.plugin.settings.destinationFolder = value;
-						this.plugin.saveSettings();
+						void this.plugin.saveSettings();
 					});
 			})
 			.addButton(btn => btn
@@ -138,8 +142,8 @@ export class GameSearchSettingTab extends PluginSettingTab {
 					new FolderSuggestModal(this.app, (folder: TFolder) => {
 						const path = folder.path === '/' ? '' : folder.path;
 						this.plugin.settings.destinationFolder = path;
-						this.plugin.saveSettings();
-						this.display();
+						void this.plugin.saveSettings();
+						destFolderText.setValue(path);
 					}).open();
 				}));
         

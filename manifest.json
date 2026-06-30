@@ -2,7 +2,7 @@
   "id": "gamebase",
   "name": "Gamebase",
   "version": "1.0.3",
-  "minAppVersion": "1.5.0",
+  "minAppVersion": "1.15.0",
   "description": "Fetch game metadata from IGDB and apply it to templates.",
   "author": "AndyPandy1189",
   "authorUrl": "https://github.com/AndyPandy1189",
