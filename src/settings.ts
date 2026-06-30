@@ -45,7 +45,7 @@ class FolderSuggestModal extends FuzzySuggestModal<TFolder> {
 	}
 
 	getItems(): TFolder[] {
-		return this.app.vault.getAllLoadedFiles().filter(f => f instanceof TFolder) as TFolder[];
+		return this.app.vault.getAllLoadedFiles().filter((f): f is TFolder => f instanceof TFolder);
 	}
 
 	getItemText(item: TFolder): string {
@@ -70,7 +70,7 @@ export class GameSearchSettingTab extends PluginSettingTab {
 
 		containerEl.empty();
 
-		containerEl.createEl('h2', {text: 'IGDB API Settings'});
+		new Setting(containerEl).setName('IGDB API Settings').setHeading();
 
 		new Setting(containerEl)
 			.setName('IGDB Client ID')
@@ -98,7 +98,7 @@ export class GameSearchSettingTab extends PluginSettingTab {
 					});
 			});
 
-		containerEl.createEl('h2', {text: 'File Settings'});
+		new Setting(containerEl).setName('File Settings').setHeading();
 
 		new Setting(containerEl)
 			.setName('Template File Path')
@@ -106,17 +106,17 @@ export class GameSearchSettingTab extends PluginSettingTab {
 			.addText(text => {
 				text.setPlaceholder('Templates/GameTemplate.md')
 					.setValue(this.plugin.settings.templatePath)
-					.onChange(async (value) => {
+					.onChange((value) => {
 						this.plugin.settings.templatePath = value;
-						await this.plugin.saveSettings();
+						this.plugin.saveSettings();
 					});
 			})
 			.addButton(btn => btn
 				.setButtonText('Browse')
 				.onClick(() => {
-					new FileSuggestModal(this.app, async (file: TFile) => {
+					new FileSuggestModal(this.app, (file: TFile) => {
 						this.plugin.settings.templatePath = file.path;
-						await this.plugin.saveSettings();
+						this.plugin.saveSettings();
 						this.display();
 					}).open();
 				}));
@@ -127,23 +127,23 @@ export class GameSearchSettingTab extends PluginSettingTab {
 			.addText(text => {
 				text.setPlaceholder('Games')
 					.setValue(this.plugin.settings.destinationFolder)
-					.onChange(async (value) => {
+					.onChange((value) => {
 						this.plugin.settings.destinationFolder = value;
-						await this.plugin.saveSettings();
+						this.plugin.saveSettings();
 					});
 			})
 			.addButton(btn => btn
 				.setButtonText('Browse')
 				.onClick(() => {
-					new FolderSuggestModal(this.app, async (folder: TFolder) => {
+					new FolderSuggestModal(this.app, (folder: TFolder) => {
 						const path = folder.path === '/' ? '' : folder.path;
 						this.plugin.settings.destinationFolder = path;
-						await this.plugin.saveSettings();
+						this.plugin.saveSettings();
 						this.display();
 					}).open();
 				}));
         
-        containerEl.createEl('h2', {text: 'Template Variables Reference'});
+        new Setting(containerEl).setName('Template Variables Reference').setHeading();
         containerEl.createEl('p', {text: 'Use these tags in your template file to insert game data:'});
         const ul = containerEl.createEl('ul');
         ul.createEl('li', {text: '{{title}} - The name of the game'});

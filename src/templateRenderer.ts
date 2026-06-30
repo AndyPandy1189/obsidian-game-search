@@ -93,18 +93,15 @@ async function createNoteWithConflictCheck(app: App, targetPath: string, content
 		const existingFile = app.vault.getAbstractFileByPath(targetPath);
 		if (existingFile) {
 			const currentName = targetPath.substring(folderPath.length, targetPath.length - 3);
-			new ConflictResolutionModal(app, currentName, async (newName: string) => {
+			new ConflictResolutionModal(app, currentName, (newName: string) => {
 				const safeNewName = newName.replace(/[\\/:"*?<>|]+/g, '').trim();
 				const newPath = `${folderPath}${safeNewName}.md`;
-				try {
-					await createNoteWithConflictCheck(app, newPath, content, folderPath, openAfterCreate);
-					resolve();
-				} catch (e) {
-					reject(e);
-				}
+				createNoteWithConflictCheck(app, newPath, content, folderPath, openAfterCreate)
+					.then(resolve)
+					.catch(e => reject(e instanceof Error ? e : new Error(String(e))));
 			}).open();
 		} else {
-			(async () => {
+			const runCreate = async () => {
 				try {
 					if (folderPath) {
 						const folderPaths = folderPath.replace(/\/$/, '').split('/');
@@ -123,15 +120,16 @@ async function createNoteWithConflictCheck(app: App, targetPath: string, content
 					
 					if (openAfterCreate) {
 						const leaf = app.workspace.getLeaf(false);
-						if (leaf) await leaf.openFile(newFile as TFile);
+						if (leaf && newFile instanceof TFile) await leaf.openFile(newFile);
 					}
 					resolve();
 				} catch (error) {
 					console.error("Error creating note:", error);
 					new Notice("Failed to create note. See console for details.");
-					reject(error);
+					reject(error instanceof Error ? error : new Error(String(error)));
 				}
-			})();
+			};
+			void runCreate();
 		}
 	});
 }

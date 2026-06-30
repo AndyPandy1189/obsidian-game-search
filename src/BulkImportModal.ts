@@ -31,18 +31,18 @@ export class BulkImportModal extends Modal {
 			.addText(text => {
 				this.searchInput = text.inputEl;
 				text.setPlaceholder('Enter game name...');
-				text.inputEl.addEventListener('keydown', async (e) => {
+				text.inputEl.addEventListener('keydown', (e) => {
 					if (e.key === 'Enter') {
 						e.preventDefault();
-						await this.performSearch(text.getValue());
+						void this.performSearch(text.getValue());
 					}
 				});
 			})
 			.addButton(btn => btn
 				.setButtonText('Search')
 				.setCta()
-				.onClick(async () => {
-					await this.performSearch(this.searchInput.value);
+				.onClick(() => {
+					void this.performSearch(this.searchInput.value);
 				}));
 
 		// Layout Container
@@ -64,8 +64,8 @@ export class BulkImportModal extends Modal {
 			.addButton(btn => btn
 				.setButtonText('Import All Staged Games')
 				.setCta()
-				.onClick(async () => {
-					await this.processQueue();
+				.onClick(() => {
+					void this.processQueue();
 				}));
 
 		this.renderQueue();
@@ -111,7 +111,7 @@ export class BulkImportModal extends Modal {
 						}));
 			});
 
-		} catch (error) {
+		} catch (_) {
 			this.resultsContainer.empty();
 			this.resultsContainer.createEl('p', { text: 'Error searching IGDB. Check credentials.' });
 		}
@@ -146,7 +146,7 @@ export class BulkImportModal extends Modal {
 			new Setting(gameEl)
 				.addButton(btn => btn
 					.setButtonText('Remove')
-					.setWarning()
+					.setDestructive()
 					.onClick(() => {
 						this.removeFromQueue(game.id);
 					}));

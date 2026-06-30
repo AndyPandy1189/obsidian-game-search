@@ -19,7 +19,7 @@ export class GameSearchModal extends SuggestModal<IGDBGame> {
 		
 		try {
 			return await this.igdbClient.searchGames(query);
-		} catch (error) {
+		} catch (_) {
 			new Notice("Failed to search IGDB. Please check your API credentials in settings.");
 			return [];
 		}
@@ -45,8 +45,8 @@ export class GameSearchModal extends SuggestModal<IGDBGame> {
 		}
 	}
 
-	async onChooseSuggestion(game: IGDBGame, evt: MouseEvent | KeyboardEvent) {
+	onChooseSuggestion(game: IGDBGame, evt: MouseEvent | KeyboardEvent) {
 		new Notice(`Selected ${game.name}. Creating note...`);
-		await renderAndCreateNote(this.app, game, this.plugin.settings.templatePath, this.plugin.settings.destinationFolder);
+		void renderAndCreateNote(this.app, game, this.plugin.settings.templatePath, this.plugin.settings.destinationFolder);
 	}
 }

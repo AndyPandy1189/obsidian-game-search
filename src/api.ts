@@ -42,7 +42,8 @@ export class IGDBClient {
 			});
 
 			if (response.status === 200) {
-				this.accessToken = response.json.access_token;
+				const data = response.json as { access_token: string };
+				this.accessToken = data.access_token;
 				return true;
 			}
 		} catch (error) {

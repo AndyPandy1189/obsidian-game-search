@@ -38,7 +38,7 @@ export default class GameSearchPlugin extends Plugin {
 	}
 
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+		this.settings = Object.assign({}, DEFAULT_SETTINGS, (await this.loadData()) as Partial<GameSearchPluginSettings>);
 	}
 
 	async saveSettings() {
