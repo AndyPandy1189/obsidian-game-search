@@ -1,6 +1,6 @@
 {
   "name": "obsidian-game-search",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Fetch IGDB game metadata to Obsidian templates",
   "main": "main.js",
   "scripts": {
